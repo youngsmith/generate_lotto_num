@@ -49,19 +49,23 @@ class MainActivity : AppCompatActivity() {
             val queue = Volley.newRequestQueue(this)
             val round = round_editText.text
             var url = LOTTO_URL + round
-            //url = LOTTO_URL2
 
             val stringRequest = StringRequest(
                  Request.Method.GET
                 ,url
                 ,Response.Listener<String> { response ->
                     val resultMap : HashMap<String, String> = mapper.readValue(response, object : TypeReference<HashMap<String, String>>() {})
+                    val winningNum : StringBuilder = StringBuilder()
 
-                    for ((k, v) in resultMap) {
+                    resultMap.asSequence()
+                         .filter { it.key.startsWith(DRAW_NUM_PREFIX) }
+                        ?.forEach {
+                            winningNum.append(it.value)
+                            winningNum.append(" ")
+                        }
 
-                    }
-
-                    winnings_textView.text = response
+                    winnings_textView.text = resultMap["firstWinamnt"]
+                    winning_num_textView.text = winningNum
                 }
                 ,Response.ErrorListener {
                     winnings_textView.text = "did not work!"
