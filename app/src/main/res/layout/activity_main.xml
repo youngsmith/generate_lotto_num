@@ -11,6 +11,52 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                <TextView
+                        android:text="당첨 번호"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/textView3" android:layout_weight="1"
+                        android:textSize="24sp"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/winning_num_textView" android:layout_weight="1"
+                        android:textSize="24sp"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                <TextView
+                        android:text="당첨금"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/textView2" android:layout_weight="1"
+                        android:textSize="24sp"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/winnings_textView" android:layout_weight="1"
+                        android:textSize="24sp"/>
+            </LinearLayout>
+            <EditText
+                    android:layout_width="131dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="10"
+                    android:id="@+id/round_editText"/>
+            <Button
+                    android:text="로또 정보 확인"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/get_lotto_info_btn"
+            />
+        </LinearLayout>
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -23,24 +69,13 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"/>
         </LinearLayout>
+
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             <Button
-                    android:text="@string/toast_button_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/toast_button"
-            />
-            <Button
-                    android:text="@string/count_button_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/count_button"
-            />
-            <Button
-                    android:text="@string/random_button_text"
+                    android:text="로또 번호 추출"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/random_button"

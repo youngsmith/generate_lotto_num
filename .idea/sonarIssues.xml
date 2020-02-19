@@ -3,12 +3,22 @@
   <component name="issues">
     <option name="index">
       <map>
+        <entry key="$PROJECT_DIR$/app/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/androidTest/java/com/example/myapplication/ExampleInstrumentedTest.kt">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/androidTest/java/com/example/rr/ExampleInstrumentedTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
           <value>
             <set />
           </value>
@@ -38,12 +48,37 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../benefit-api/benefit-api/src/main/java/com/wemakeprice/benefit/api/admin/coupon/service/external/CouponExternalService.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../benefit-api/benefit-api/src/main/java/com/wemakeprice/benefit/api/common/MassUpdateHandlerTemplate.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../rr/app/src/androidTest/java/com/example/rr/ExampleInstrumentedTest.kt">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/../rr/app/src/test/java/com/example/rr/ExampleUnitTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../test/src/main/java/com/test/test/User.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../test/src/test/java/com/test/test/TestApplicationTests.java">
           <value>
             <set />
           </value>
