@@ -15,6 +15,7 @@ import kotlin.random.Random
 import kotlin.random.nextUInt
 
 class MainActivity : AppCompatActivity() {
+    val mapper = jacksonObjectMapper()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,20 +48,26 @@ class MainActivity : AppCompatActivity() {
         get_lotto_info_btn.setOnClickListener {
             val queue = Volley.newRequestQueue(this)
             val round = round_editText.text
-            val url = LOTTO_URL + round
+            var url = LOTTO_URL + round
+            //url = LOTTO_URL2
 
             val stringRequest = StringRequest(
                  Request.Method.GET
                 ,url
                 ,Response.Listener<String> { response ->
-                    val mapper = jacksonObjectMapper()
                     val resultMap : HashMap<String, String> = mapper.readValue(response, object : TypeReference<HashMap<String, String>>() {})
 
-                    winnings_textView.text = ""
+                    for ((k, v) in resultMap) {
+
+                    }
+
+                    winnings_textView.text = response
                 }
                 ,Response.ErrorListener {
                     winnings_textView.text = "did not work!"
-                })
+                }
+            )
+
 
             queue.add(stringRequest)
         }
