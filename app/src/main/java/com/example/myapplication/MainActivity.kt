@@ -66,9 +66,7 @@ class MainActivity : AppCompatActivity() {
                  Request.Method.GET
                 ,url
                 ,Response.Listener<String> { response ->
-                    val winningNum : StringBuilder = StringBuilder()
                     var resultMap : HashMap<String, String> = HashMap<String, String>()
-
                     try {
                         resultMap = mapper.readValue(response, object : TypeReference<HashMap<String, String>>() {})
                     }
@@ -76,6 +74,7 @@ class MainActivity : AppCompatActivity() {
                         println(exception)
                     }
 
+                    val winningNum : StringBuilder = StringBuilder()
                     resultMap
                         .asSequence()
                         .filter { it.key.startsWith(DRAW_NUM_PREFIX) }
@@ -84,7 +83,8 @@ class MainActivity : AppCompatActivity() {
                             winningNum.append(" ")
                         }
 
-                    winnings_textView.text = resultMap.getOrDefault("firstWinamnt", NO_DATA)
+                    var winnings : String = resultMap.getOrDefault("firstWinamnt", NO_DATA)
+                    winnings_textView.text = if(!winnings.equals(NO_DATA)) winnings.format()
                     winning_num_textView.text = winningNum
                 }
                 ,Response.ErrorListener {
