@@ -1,7 +1,9 @@
 package com.example.myapplication
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -9,6 +11,7 @@ import com.android.volley.toolbox.Volley
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.Exception
 import java.lang.StringBuilder
 import java.util.*
 import kotlin.random.Random
@@ -17,6 +20,7 @@ import kotlin.random.nextUInt
 class MainActivity : AppCompatActivity() {
     val mapper = jacksonObjectMapper()
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -26,20 +30,28 @@ class MainActivity : AppCompatActivity() {
             val check : BitSet = BitSet(47)
             var totalDrawCount : Int = 0
             val result : StringBuilder = StringBuilder()
+            val drewNumArray : IntArray = IntArray(6)
 
             while(true) {
                 val unsignedDrewNum : UInt = Random.nextUInt() % MAX_LOTTO_NUM + MIN_LOTTO_NUM
                 val signedDrewNum : Int = unsignedDrewNum.toInt()
 
                 if(check.get(signedDrewNum)) continue
-
                 check.set(signedDrewNum)
-                totalDrawCount += 1
-                result.append(signedDrewNum)
-                result.append(" ")
 
+                drewNumArray[totalDrawCount] = signedDrewNum
+
+                totalDrawCount += 1
                 if(totalDrawCount >= MAX_DRAW_NUM_COUNT) break
             }
+
+            drewNumArray
+                .asSequence()
+                .sorted()
+                .forEach {
+                    result.append(it)
+                    result.append(" ")
+                }
 
             lotto_num_textView.text = result
         }
@@ -48,30 +60,37 @@ class MainActivity : AppCompatActivity() {
         get_lotto_info_btn.setOnClickListener {
             val queue = Volley.newRequestQueue(this)
             val round = round_editText.text
-            var url = LOTTO_URL + round
+            val url = LOTTO_URL + round
 
             val stringRequest = StringRequest(
                  Request.Method.GET
                 ,url
                 ,Response.Listener<String> { response ->
-                    val resultMap : HashMap<String, String> = mapper.readValue(response, object : TypeReference<HashMap<String, String>>() {})
                     val winningNum : StringBuilder = StringBuilder()
+                    var resultMap : HashMap<String, String> = HashMap<String, String>()
 
-                    resultMap.asSequence()
-                         .filter { it.key.startsWith(DRAW_NUM_PREFIX) }
-                        ?.forEach {
+                    try {
+                        resultMap = mapper.readValue(response, object : TypeReference<HashMap<String, String>>() {})
+                    }
+                    catch (exception : Exception) {
+                        println(exception)
+                    }
+
+                    resultMap
+                        .asSequence()
+                        .filter { it.key.startsWith(DRAW_NUM_PREFIX) }
+                        .forEach {
                             winningNum.append(it.value)
                             winningNum.append(" ")
                         }
 
-                    winnings_textView.text = resultMap["firstWinamnt"]
+                    winnings_textView.text = resultMap.getOrDefault("firstWinamnt", NO_DATA)
                     winning_num_textView.text = winningNum
                 }
                 ,Response.ErrorListener {
-                    winnings_textView.text = "did not work!"
+                    winnings_textView.text = RESPONSE_ERROR
                 }
             )
-
 
             queue.add(stringRequest)
         }
