@@ -21,18 +21,17 @@ import kotlin.random.nextUInt
 class MainActivity : AppCompatActivity() {
     val mapper = jacksonObjectMapper()
     val numFormatter = NumberFormat.getNumberInstance()
+    val drewNumArray : IntArray = IntArray(6)
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         random_button.setOnClickListener {
             val check : BitSet = BitSet(47)
             var totalDrawCount : Int = 0
             val result : StringBuilder = StringBuilder()
-            val drewNumArray : IntArray = IntArray(6)
 
             while(true) {
                 val unsignedDrewNum : UInt = Random.nextUInt() % MAX_LOTTO_NUM + MIN_LOTTO_NUM
@@ -47,10 +46,8 @@ class MainActivity : AppCompatActivity() {
                 if(totalDrawCount >= MAX_DRAW_NUM_COUNT) break
             }
 
-            drewNumArray
-                .asSequence()
-                .sorted()
-                .forEach {
+            drewNumArray.sort()
+            drewNumArray.forEach {
                     result.append(it)
                     result.append(" ")
                 }
@@ -76,6 +73,7 @@ class MainActivity : AppCompatActivity() {
                         println(exception)
                     }
 
+                    // 로또 당첨 번호 세팅
                     val winningNum : StringBuilder = StringBuilder()
                     resultMap
                         .asSequence()
@@ -86,6 +84,7 @@ class MainActivity : AppCompatActivity() {
                         }
                     winning_num_textView.text = winningNum
 
+                    // 상금 세팅
                     //.getOrDefault("firstWinamnt", NO_DATA)
                     val winnings : String = resultMap
                         .get("firstWinamnt")
@@ -99,6 +98,48 @@ class MainActivity : AppCompatActivity() {
             )
 
             queue.add(stringRequest)
+        }
+
+
+        simulation_button.setOnClickListener {
+            var totalTryCount : Long = 0
+            val check: BitSet = BitSet(47)
+            var totalDrawCount: Int = 0
+            val tryDrewNumArray : IntArray = IntArray(6)
+
+            while(true) {
+                totalTryCount += 1
+                check.clear()
+                totalDrawCount = 0
+                tryDrewNumArray.fill(0)
+
+                while (true) {
+                    val unsignedDrewNum: UInt = Random.nextUInt() % MAX_LOTTO_NUM + MIN_LOTTO_NUM
+                    val signedDrewNum: Int = unsignedDrewNum.toInt()
+
+                    if (check.get(signedDrewNum)) continue
+                    check.set(signedDrewNum)
+
+                    tryDrewNumArray[totalDrawCount] = signedDrewNum
+
+                    totalDrawCount += 1
+                    if (totalDrawCount >= MAX_DRAW_NUM_COUNT) break
+                }
+
+                tryDrewNumArray.sort()
+
+                var allMatch : Boolean = true
+                for(idx : Int in 0..5) {
+                    if(drewNumArray[idx] != tryDrewNumArray[idx]) {
+                        allMatch = false
+                        break
+                    }
+                }
+
+                if(allMatch || totalTryCount > 9000000) break
+            }
+
+            simulation_result_textView.text = totalTryCount.toString()
         }
     }
 

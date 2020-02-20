@@ -11,7 +11,6 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -68,18 +67,35 @@
                     android:textSize="30sp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
             <Button
                     android:text="로또 번호 추출"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/random_button"
             />
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                <TextView
+                        android:text="시뮬레이션 결과 "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:textSize="24sp"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/simulation_result_textView"
+                        android:layout_weight="1" android:textSize="24sp"/>
+            </LinearLayout>
+            <Button
+                    android:text="시뮬레이션"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/simulation_button"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
