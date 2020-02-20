@@ -13,12 +13,14 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Exception
 import java.lang.StringBuilder
+import java.text.NumberFormat
 import java.util.*
 import kotlin.random.Random
 import kotlin.random.nextUInt
 
 class MainActivity : AppCompatActivity() {
     val mapper = jacksonObjectMapper()
+    val numFormatter = NumberFormat.getNumberInstance()
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,10 +84,14 @@ class MainActivity : AppCompatActivity() {
                             winningNum.append(it.value)
                             winningNum.append(" ")
                         }
-
-                    var winnings : String = resultMap.getOrDefault("firstWinamnt", NO_DATA)
-                    winnings_textView.text = if(!winnings.equals(NO_DATA)) winnings.format()
                     winning_num_textView.text = winningNum
+
+                    //.getOrDefault("firstWinamnt", NO_DATA)
+                    val winnings : String = resultMap
+                        .get("firstWinamnt")
+                        ?.let { numFormatter.format(it.toLong()) } ?: NO_DATA
+
+                    winnings_textView.text = winnings
                 }
                 ,Response.ErrorListener {
                     winnings_textView.text = RESPONSE_ERROR
